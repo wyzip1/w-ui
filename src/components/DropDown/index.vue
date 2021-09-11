@@ -6,12 +6,7 @@
       <i class="fa fa-angle-down icon" aria-hidden="true"></i>
     </span>
     <transition name="scale">
-      <div
-        class="switch"
-        :style="style"
-        v-show="isFocus"
-        @mousedown="mouseDown"
-      >
+      <div class="switch" v-show="isFocus" @mousedown="mouseDown">
         <div
           :class="{
             tab: true,
@@ -30,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, onMounted } from "_vue@3.1.4@vue";
+import { ref, defineEmits, onMounted } from "vue";
 
 const emit = defineEmits(["onChange"]);
 
@@ -41,7 +36,6 @@ const props = defineProps({
 
 const input = ref();
 const isFocus = ref(false);
-const style = ref("display: none");
 const tab = ref(
   props.defaultTab ||
     (props.switchList && props.switchList.length
@@ -77,11 +71,10 @@ onMounted(() => {
   display: inline-block;
   width: auto;
   padding: 0 11px;
-  box-sizing: border-box;
-  height: 32px;
+  height: 34px;
   text-align: center;
   font-size: 14px;
-  line-height: 32px;
+  line-height: 34px;
   color: #000000d9;
 }
 
@@ -99,7 +92,6 @@ onMounted(() => {
   border: 1px solid #d9d9d9;
   border-radius: 2px;
   transition: 0.3s;
-  box-sizing: border-box;
   background-color: transparent;
   z-index: 10;
 }
@@ -114,9 +106,10 @@ onMounted(() => {
 }
 
 .dropdown .switch {
-  width: 100%;
+  min-width: 100%;
   position: absolute;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   top: calc(100% + 5px);
   padding: 4px 0;
   box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
@@ -124,6 +117,7 @@ onMounted(() => {
   box-sizing: border-box;
   background-color: #fff;
   transform-origin: top;
+  z-index: 999;
 }
 
 .dropdown .switch .tab {
@@ -132,6 +126,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -159,11 +154,11 @@ onMounted(() => {
 @keyframes scaleShow {
   from {
     opacity: 0;
-    transform: scaleY(0.8);
+    transform: scaleY(0.8) translateX(-50%);
   }
   to {
     opacity: 1;
-    transform: scaleY(1);
+    transform: scaleY(1) translateX(-50%);
   }
 }
 </style>

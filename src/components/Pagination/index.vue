@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, computed, ref } from "vue";
+import { defineEmits, computed, ref } from "vue";
 import DropDown from "../DropDown/index.vue";
 
 const props = defineProps({
@@ -99,7 +99,6 @@ function changePageSize(value) {
   line-height: 32px;
   border-radius: 2px;
   border: 1px solid #d9d9d9;
-  box-sizing: border-box;
   cursor: pointer;
   user-select: none;
 }
