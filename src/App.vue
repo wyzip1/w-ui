@@ -3,6 +3,38 @@
     <h1>MY - UI_COMPONENTS</h1>
   </header>
   <div class="code-demo">
+    <h3>按钮</h3>
+    <div class="component">
+      <Button>默认</Button>
+      <Button primary>主要</Button>
+      <Button danger>危险</Button>
+      <Button disabled>禁用</Button>
+    </div>
+  </div>
+  <div class="code-demo">
+    <h3>按钮</h3>
+    <div class="component">
+      <Input />
+    </div>
+  </div>
+  <div class="code-demo">
+    <h3>按钮</h3>
+    <div class="component">
+      <Upload v-model="fileList" @upload="upload" />
+    </div>
+  </div>
+  <div class="code-demo">
+    <h3>分页组件</h3>
+    <div class="component">
+      <Pagination
+        :total="total"
+        @onChange="changePage"
+        :sizeOption="[5, 10, 15, 20]"
+        @onSizeChange="changeSize"
+      />
+    </div>
+  </div>
+  <div class="code-demo">
     <h3>分页组件</h3>
     <div class="component">
       <Pagination
@@ -35,11 +67,15 @@
 
 <script setup>
 import { ref } from "vue";
+import Button from './components/Button/index.vue'
+import Input from './components/Input/index.vue'
+import Upload from './components/Upload/index.vue'
 import Pagination from "./components/Pagination/index.vue";
 import DropDown from "./components/DropDown/index.vue";
 import Audio from "./components/Audio/index.vue";
 
 const total = ref(15);
+const fileList = ref([])
 
 const switchList = ref([
   { value: 0, text: "选项一" },
@@ -58,6 +94,26 @@ function changeTab(value) {
 
 function changeSize(size) {
   console.log(size);
+}
+
+function upload({ index, formData, isLast, fileUid, signal }, next) {
+  fetch('/api/uploadFile', {
+    method: 'POST',
+    body: formData,
+    headers: { 
+      ['file-uid']: fileUid,
+      ['upload-end']: isLast ? 'isLast' : 'continue',
+      ['file-index']: index
+    },
+    signal
+  }).then(res => res.json()).then(res => {
+    isLast && open(res.url)
+    next();
+  }).catch(err => {
+    console.log('uploadSliceFile Error', err);
+    if(err.code === 20) return next('pause')
+    next(false)
+  })
 }
 </script>
 

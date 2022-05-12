@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { defineEmits, computed, ref } from "vue";
+import { computed, ref } from "vue";
 import DropDown from "../DropDown/index.vue";
 
 const props = defineProps({
